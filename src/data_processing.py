@@ -1,5 +1,5 @@
 # data and idea from: http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+%28diagnostic%29
-### Just for practice - not my data, not my idea
+### Just for practice - not my data
 
 
 ### DATA PROCESSING ###
@@ -16,6 +16,7 @@ import csv
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
 from sklearn.model_selection import train_test_split
 
 
@@ -60,6 +61,113 @@ def main():
     model = make_pipeline(StandardScaler(), RandomForestClassifier(n_estimators=300, max_depth=10, min_samples_leaf=3))
     model.fit(X_train, y_train)
     print(model.score(X_valid, y_valid))
+
+
+    ##### Diagnosis #####
+    # b, m = data['diagnosis'].value_counts(dropna=False)
+    # x = ['M', 'B']
+    # y = [m, b]
+    # plt.figure()
+    # plt.bar(x, y)
+    # plt.title('Diagnosis')
+    # plt.xlabel('Diagnosis')
+    # plt.ylabel('Count')
+    # plt.tight_layout()
+    # # plt.show()
+    # # plt.savefig('diagnosis.png')
+
+    ##### Mean Symmetry #####
+    # plt.subplot()
+    # symmetry_mean_M = data.loc[data['diagnosis'] == 'M']
+    # symmetry_mean_B = data.loc[data['diagnosis'] == 'B']
+    # plt.plot(symmetry_mean_B['symmetry_mean'].dropna(), 'b*')
+    # plt.plot(symmetry_mean_M['symmetry_mean'].dropna(), 'r.', alpha=0.5)
+    # plt.legend(['Benign', 'Malignant'])
+    # plt.title('Mean Symmetry')
+    # # # plt.xlabel('Latitude')
+    # # # plt.ylabel('Longitude')
+    # plt.tight_layout()
+    # plt.show()
+    # # # plt.savefig('LonLat.png')
+
+    ##### Mean Radius #####
+    # plt.subplot()
+    # radius_mean_M = data.loc[data['diagnosis'] == 'M']
+    # radius_mean_B = data.loc[data['diagnosis'] == 'B']
+    # plt.plot(radius_mean_B['radius_mean'].dropna(), 'b*')
+    # plt.plot(radius_mean_M['radius_mean'].dropna(), 'r.', alpha=0.5)
+    # plt.legend(['Benign', 'Malignant'])
+    # plt.title('Mean Radius')
+    # # # plt.xlabel('Latitude')
+    # # # plt.ylabel('Longitude')
+    # plt.tight_layout()
+    # plt.show()
+    # # # plt.savefig('mean_radius.png')
+
+    ##### Radius #####
+    fig = plt.figure()
+    ax = plt.subplot(1, 1, 1, projection='3d')
+    radius_mean_M = data.loc[data['diagnosis'] == 'M']
+    radius_mean_B = data.loc[data['diagnosis'] == 'B']
+    ax.scatter3D(radius_mean_B['radius_mean'].dropna(), radius_mean_B['radius_SE'].dropna(), radius_mean_B['radius_worst'].dropna(), c=radius_mean_B['radius_worst'].dropna(), alpha=0.6, cmap='Blues')
+    ax = plt.subplot(1, 1, 1, projection='3d')
+    ax.scatter3D(radius_mean_M['radius_mean'].dropna(), radius_mean_M['radius_SE'].dropna(), radius_mean_M['radius_worst'].dropna(), c=radius_mean_M['radius_worst'].dropna(), alpha=0.3, cmap='Reds')
+    plt.legend(['Benign', 'Malignant'])
+    plt.title('Radius')
+    # # plt.xlabel('Latitude')
+    # # plt.ylabel('Longitude')
+    # # plt.zlabel('idk')
+    plt.tight_layout()
+    plt.show()
+    # # plt.savefig('radius.png')
+
+    ##### Mean Texture #####
+    # plt.subplot()
+    # texture_mean_M = data.loc[data['diagnosis'] == 'M']
+    # texture_mean_B = data.loc[data['diagnosis'] == 'B']
+    # plt.plot(texture_mean_B['texture_mean'].dropna(), 'b*')
+    # plt.plot(texture_mean_M['texture_mean'].dropna(), 'r.', alpha=0.5)
+    # plt.legend(['Benign', 'Malignant'])
+    # plt.title('Mean Texture')
+    # # # plt.xlabel('Latitude')
+    # # # plt.ylabel('Longitude')
+    # plt.tight_layout()
+    # plt.show()
+    # # # plt.savefig('LonLat.png')
+
+    ##### Smoothness #####
+    fig = plt.figure()
+    ax = plt.subplot(1, 1, 1, projection='3d')
+    smoothness_M = data.loc[data['diagnosis'] == 'M']
+    smoothness_B = data.loc[data['diagnosis'] == 'B']
+    ax.scatter3D(smoothness_B['smoothness_mean'].dropna(), smoothness_B['smoothness_SE'].dropna(), smoothness_B['smoothness_worst'].dropna(), c=smoothness_B['smoothness_worst'].dropna(), alpha=0.3, cmap='Blues')
+    ax = plt.subplot(1, 1, 1, projection='3d')
+    ax.scatter3D(smoothness_M['smoothness_mean'].dropna(), smoothness_M['smoothness_SE'].dropna(), smoothness_M['smoothness_worst'].dropna(), c=smoothness_M['smoothness_worst'].dropna(), alpha=0.5, cmap='Reds')
+    plt.legend(['Benign', 'Malignant'])
+    plt.title('Smoothness')
+    # # plt.xlabel('Latitude')
+    # # plt.ylabel('Longitude')
+    # # plt.zlabel('idk')
+    plt.tight_layout()
+    plt.show()
+    # # plt.savefig('smoothness.png')
+
+    ##### Concavity #####
+    fig = plt.figure()
+    ax = plt.subplot(1, 1, 1, projection='3d')
+    concavity_M = data.loc[data['diagnosis'] == 'M']
+    concavity_B = data.loc[data['diagnosis'] == 'B']
+    ax.scatter3D(concavity_B['concavity_mean'].dropna(), concavity_B['concavity_SE'].dropna(), concavity_B['concavity_worst'].dropna(), c=concavity_B['concavity_worst'].dropna(), alpha=0.9, cmap='Blues')
+    ax = plt.subplot(1, 1, 1, projection='3d')
+    ax.scatter3D(concavity_M['concavity_mean'].dropna(), concavity_M['concavity_SE'].dropna(), concavity_M['concavity_worst'].dropna(), c=concavity_M['concavity_worst'].dropna(), alpha=0.8, cmap='Reds')
+    plt.legend(['Benign', 'Malignant'])
+    plt.title('Concavity')
+    # # plt.xlabel('Latitude')
+    # # plt.ylabel('Longitude')
+    # # plt.zlabel('idk')
+    plt.tight_layout()
+    plt.show()
+    # # plt.savefig('concavity.png')
 
 if __name__ == '__main__':
     main()
